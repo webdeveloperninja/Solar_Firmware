@@ -20,7 +20,7 @@ def connect(client_id):
     return c
 
 
-def subscribe(connection, message_handler, topic_name):
+def subscribe_forever(connection, message_handler, topic_name):
     connection.set_callback(message_handler)
     connection.subscribe(topic_name)
 
