@@ -18,3 +18,12 @@ def connect(client_id):
     c = MQTTClient(client_id, aws_endpoint, ssl=True, ssl_params=ssl_params)
     c.connect()
     return c
+
+
+def subscribe(connection, message_handler, topic_name):
+    connection.set_callback(message_handler)
+    connection.subscribe(topic_name)
+
+    while True:
+        connection.check_msg()
+        time.sleep(10)

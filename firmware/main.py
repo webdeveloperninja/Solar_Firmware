@@ -1,42 +1,19 @@
-import time
-from connection import connect
+from connection import connect, subscribe
 from machine import Pin
-
-msgs_received = 0
 
 dio10 = Pin("P0", Pin.OUT, value=0)
 
-print("network connected")
-
 client_id = "oasidfjoasidfjasdf"
-c = connect(client_id)
+connection = connect(client_id)
+topic = "sample/xbee"
 
 
-def sub_cb(topic, msg):
-    global msgs_received
-    msgs_received += 1
-    print(topic, msg)
+def message_handler(topic_name, message_payload):
+    print(topic_name, message_payload)
     dio10.toggle()
 
-
-def subscribe():
-    c.set_callback(sub_cb)
-    c.subscribe("sample/xbee")
-
-    global msgs_received
-
-    msgs_received = 0
-    while msgs_received < 5:
-        c.check_msg()
-        time.sleep(5)
-    time.sleep(1)
-    c.disconnect()
-    print("DONE")
+# subscribe is currently blocking. look into better way for
+# topic subscriptions
 
 
-def publish_test():
-    c.publish("sample/xbee", '{"message": "Yay from Robert\'s Xbee"}')
-
-
-publish_test()
-subscribe()
+subscribe(connection, message_handler, topic)
