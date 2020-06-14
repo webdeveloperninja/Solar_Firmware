@@ -1,7 +1,8 @@
-from connection import connect
-from machine import Pin
-import xbee
+from connection import Connection
 from solar_panel import SolarPanel
+from machine import Pin
+
+import xbee
 
 topic = "solar-panel/status"
 client_id = "solar-panel-1"
@@ -14,7 +15,9 @@ get_device_id_at_command = "MY"
 device = xbee.XBee()
 device_id = device.atcmd(get_device_id_at_command)
 
-connection = connect(client_id)
+connection_manager = Connection()
+connection = connection_manager.create(client_id)
+
 solar_panel = SolarPanel(device_id, connection)
 
 solar_panel.publish_current_state()
