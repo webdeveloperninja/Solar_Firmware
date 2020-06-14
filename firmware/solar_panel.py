@@ -8,21 +8,22 @@ class SolarPanel:
         self.mqtt_connection = mqtt_connection
 
     def publish_current_state(self):
-        current_state = '{"' + self.__get_panel_id() + '": "' + json.dumps(self.__get_current_state()) + '"}'
         current_state_topic = "solar-panel/state"
+        panel_state = json.dumps(self.__get_current_state())
 
         print("--- start publish panel state ---")
         print("Topic: " + current_state_topic)
-        print("State: " + current_state)
+        print("State: " + panel_state)
 
-        self.mqtt_connection.publish(current_state_topic, current_state)
+        self.mqtt_connection.publish(current_state_topic, panel_state)
         print("--- end publish panel state ---")
 
     def __get_current_state(self):
         analog_1 = machine.ADC('D1')
 
         return {
-            "analog-one": analog_1.read()
+            "id": self.__get_panel_id(),
+            "analogOne": analog_1.read()
         }
 
     def __get_panel_id(self):
