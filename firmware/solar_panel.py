@@ -7,7 +7,12 @@ class SolarPanel:
         current_state = '{"' + self.__get_panel_id() + '": "Encoded data"}'
         current_state_topic = "solar-panel/state"
 
+        print("--- start publish panel state ---")
+        print("Topic: " + current_state_topic)
+        print("State: " + current_state)
+
         self.mqtt_connection.publish(current_state_topic, current_state)
+        print("--- end publish panel state ---")
 
     def __get_panel_id(self):
         delimiter = '-'

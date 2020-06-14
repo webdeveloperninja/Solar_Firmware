@@ -3,7 +3,6 @@ import time, network
 
 
 class Connection:
-
     @staticmethod
     def create(client_id):
         conn = network.Cellular()
