@@ -17,6 +17,7 @@ class UserInterface:
 
         while True:
             self.switch_press_handler(button, self.on_button_press)
+            time.sleep(.2)
 
     @staticmethod
     def switch_press_handler(io_pin, press_handler):
