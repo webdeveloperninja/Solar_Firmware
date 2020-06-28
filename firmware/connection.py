@@ -5,8 +5,9 @@ import time, network
 class Connection:
     @staticmethod
     def create_cellular_connection():
+        print("Creating network connection")
         network_connection = network.Cellular()
-
+        print("Connecting")
         while not network_connection.isconnected():
             print("waiting for network connection...")
             time.sleep(4)

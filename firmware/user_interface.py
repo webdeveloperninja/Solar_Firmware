@@ -3,8 +3,9 @@ import time
 
 
 class UserInterface:
-    def __init__(self, solar_panel):
+    def __init__(self, solar_panel, uart):
         self.solar_panel = solar_panel
+        self.uart = uart
 
     def on_button_press(self):
         print("SW2 button has been pressed")
@@ -13,11 +14,12 @@ class UserInterface:
         time.sleep_ms(500)
 
     def start(self):
+        print("UI: Start")
         button = Pin('D0', Pin.IN, Pin.PULL_UP)
 
         while True:
             self.switch_press_handler(button, self.on_button_press)
-            time.sleep(.2)
+            self.comm_port_handler(self.uart)
 
     @staticmethod
     def switch_press_handler(io_pin, press_handler):
@@ -25,3 +27,11 @@ class UserInterface:
             press_handler()
             return True
         return False
+
+    @staticmethod
+    def comm_port_handler(comm_port):
+        if comm_port.any() > 0:
+            print('Reading UART')
+            read_text = comm_port.read(comm_port.any())
+            print(read_text)
+            time.sleep(.5)
