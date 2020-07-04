@@ -24,7 +24,7 @@ class Application:
 
         while True:
             self.switch_press_handler(button, self.on_button_press)
-            self.comm_port_handler(self.uart, self.on_client_message_received)
+            self.serial_message_handler(self.uart, self.on_client_message_received)
 
     @staticmethod
     def switch_press_handler(io_pin, press_handler):
@@ -32,7 +32,7 @@ class Application:
             press_handler()
 
     @staticmethod
-    def comm_port_handler(comm_port, comm_port_handler):
+    def serial_message_handler(comm_port, comm_port_handler):
         if comm_port.any() > 0:
             print('Reading UART')
             message = comm_port.read(comm_port.any())
