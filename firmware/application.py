@@ -2,7 +2,7 @@ from machine import Pin
 import time
 
 
-class UserInterface:
+class Application:
     def __init__(self, solar_panel, uart):
         self.solar_panel = solar_panel
         self.uart = uart
@@ -14,7 +14,7 @@ class UserInterface:
         time.sleep_ms(500)
 
     def start(self):
-        print("UI: Start")
+        print("Application: Start")
         button = Pin('D0', Pin.IN, Pin.PULL_UP)
 
         while True:

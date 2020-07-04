@@ -1,6 +1,6 @@
 from connection import Connection
 from solar_panel import SolarPanel
-from user_interface import UserInterface
+from application import Application
 import xbee
 from machine import UART
 
@@ -23,9 +23,9 @@ def setup():
     print('create solar panel')
     solar_panel = SolarPanel(device_id, mqtt_connection)
     print('create user interface')
-    user_interface = UserInterface(solar_panel, uart)
-    print('try start UI')
-    user_interface.start()
+    application = Application(solar_panel, uart)
+    print('try start Application')
+    application.start()
 
 
 setup()
