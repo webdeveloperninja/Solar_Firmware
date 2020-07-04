@@ -4,9 +4,9 @@ from communication import Communication
 
 
 class Application:
-    def __init__(self, solar_panel, uart):
+    def __init__(self, solar_panel, serial_port):
         self.solar_panel = solar_panel
-        self.uart = uart
+        self.serial_port = serial_port
         self.communication = Communication()
 
     def on_button_press(self):
@@ -24,7 +24,7 @@ class Application:
 
         while True:
             self.switch_press_handler(button, self.on_button_press)
-            self.serial_message_handler(self.uart, self.on_client_message_received)
+            self.serial_message_handler(self.serial_port, self.on_client_message_received)
 
     @staticmethod
     def switch_press_handler(io_pin, press_handler):
@@ -32,8 +32,8 @@ class Application:
             press_handler()
 
     @staticmethod
-    def serial_message_handler(comm_port, comm_port_handler):
-        if comm_port.any() > 0:
-            print('Reading UART')
-            message = comm_port.read(comm_port.any())
-            comm_port_handler(message)
+    def serial_message_handler(serial_port, serial_message_handler):
+        if serial_port.any() > 0:
+            print('Reading Serial Port')
+            message = serial_port.read(serial_port.any())
+            serial_message_handler(message)
