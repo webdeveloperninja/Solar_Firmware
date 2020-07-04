@@ -9,7 +9,15 @@ class Application:
         self.serial_port = serial_port
         self.communication = Communication()
 
-    def on_button_press(self):
+    def start(self):
+        print("Application: Start")
+        button_one = Pin('D0', Pin.IN, Pin.PULL_UP)
+
+        while True:
+            self.button_press_handler(button_one, self.on_publish_state_button_press)
+            self.serial_message_handler(self.serial_port, self.on_client_message_received)
+
+    def on_publish_state_button_press(self):
         print("SW2 button has been pressed")
         self.solar_panel.publish_current_state()
 
@@ -18,16 +26,8 @@ class Application:
     def on_client_message_received(self, message):
         self.communication.send(message)
 
-    def start(self):
-        print("Application: Start")
-        button = Pin('D0', Pin.IN, Pin.PULL_UP)
-
-        while True:
-            self.switch_press_handler(button, self.on_button_press)
-            self.serial_message_handler(self.serial_port, self.on_client_message_received)
-
     @staticmethod
-    def switch_press_handler(io_pin, press_handler):
+    def button_press_handler(io_pin, press_handler):
         if io_pin.value() == 0:
             press_handler()
 
